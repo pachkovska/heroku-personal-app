@@ -1,18 +1,22 @@
-
+{% extends "base.html" %}
+{% block title %}
+Projects
+{% endblock %}
+{% block content %}
 <div class="conatiner">
         <div class="row">
             <div class="col-md-4">
                 <h6 class="mb-3 text-center header-font">Project 1</h6>
-                <img class="w-100 h-100 img-fluid" src="./images/project1.png" />
+                <img class="w-100 h-100 img-fluid" src="./static/project1.png" />
             </div>
             <div class="col-md-4">
                 <h6 class="mb-3 text-center header-font">Project 2</h6>
-                <img class="w-100 h-100 img-fluid" src="./images/project2.png" />
+                <img class="w-100 h-100 img-fluid" src="./static/project2.png" />
             </div>       
             <div class="col-md-4">
                 <h6 class="mb-3 text-center header-font">Project 3</h6>
-                <img class="w-100 h-100 img-fluid" src="./images/project3.png" />
+                <img class="w-100 h-100 img-fluid" src="./static/project3.png" />
             </div>
         </div>
     </div>
-   
+{% endblock content %}   
