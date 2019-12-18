@@ -17,20 +17,23 @@ Blog
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body dark-blue">
-                            Questions we are all asking ourselves: Do I need a personal page? Will potential employer look to see one? 
-                            Should I build it from scratch, or should I get a template? How interactive it should be? Should I put my personal information out 
-                            for the entire world to see? There are some fascinating threads on quora, hackernoon and reddit on this topic. Most developers or engineers have a personal website, and they should. 
-                            Most of Dev's sites are portfolios or have a portfolio page. 
-                            If your web-site has the following:
-                            <ul>
-                                <li>It describes skills and interests</li>
-                                <li>It links to professional social profiles</li>
-                                <li>It showcases the work you are proud of</li>
-                                <li>It stays relevant and updated</li>
-                            </ul>
-                            Your site can serve you well by creating a candy wrap around you as a valuable asset.
-                            <br>
-                            Some people however face challenges with the design part of creating  the web-site as UI is what is supposed to communicate all of the info, but they can still be good engineers.
+                        <h3>How to automatically fill input elements with Tampermonkey userscripts for react applications.</h3>
+                        <p>
+                            Any QA or Software Engineer knows how to manipulate DOM elements for the purpose of e2e tests.
+                            Generally used in automation frameworks, where simple logic such as getting element by using selector and setting its value 
+                            works seamlessly. 
+                            This approach still works on React application if used with some frameworks, but frameworks or libraries generally know what 
+                            we are trying to do by setting element's value to something.
+                            However, userscript with same approach may not work on React application! 
+                            When we are changing element's value on the DOM, React does not trigger the change event. In which case we need to 
+                            propgate value to the React component. 
+
+                            For the purpose of the example code, we are using Southwest webapp that uses React at the time of writing this article.
+
+                            Here is the sample code that woudl generally work in the framework, or not on React webapp. But in our case it does not. 
+
+
+                        </p>   
                     </div>
                 </div>
             </div>
