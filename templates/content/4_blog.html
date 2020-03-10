@@ -25,14 +25,84 @@ Blog
                             This approach still works on React application if used with some frameworks, but frameworks or libraries generally know what 
                             we are trying to do by setting element's value to something.
                             However, userscript with same approach may not work on React application! 
+                            If we run this code example in Tampermonkey
+                            ```// ==UserScript==
+                            // @name         Example code based on southwest webapp
+                            // @version      0.1
+                            // @description  Automatically fill in forms on React apps with just native JavaScript
+                            // @author       Yulia T.
+                            // @grant        unsafeWindow
+                            // @match        https://mobile.southwest.com/check-in
+                            // @run-at       document-end
+                            // ==/UserScript==
+                            
+                            (
+                                function() {
+                            
+                                    window.addEventListener("load", () => {
+                            
+                                        setTimeout(() => {
+                            
+                                            const firstNameField = document.getElementsByName("firstName")[0];
+                                            const lastNameField = document.getElementsByName("lastName")[0];
+                            
+                                            firstNameField.value = "Some First Name";
+                                            lastNameField.value = "Some Last Name";
+                            
+                                        }, 3000);
+                                    });
+                            
+                            })();```
+                            It will get selectors, you will see values being set for your elements on the UI, but if we try to submit the form, our 2 filled fields get erased on UI, and React
+                            will complain that those inouts are empty. Why this is happenning?
                             When we are changing element's value on the DOM, React does not trigger the change event. In which case we need to 
                             propgate value to the React component. 
 
-                            For the purpose of the example code, we are using Southwest webapp that uses React at the time of writing this article.
-
-                            Here is the sample code that woudl generally work in the framework, or not on React webapp. But in our case it does not. 
-
-
+                            For the purpose of the example code, we are using Southwest webapp that uses React at the time of writing this article. Now let's examine the following 
+                            example code 
+                            ```// ==UserScript==
+                            // @name         Example code based on southwest webapp
+                            // @version      0.1
+                            // @description  Automatically fill in forms on React apps with just native JavaScript
+                            // @author       Yulia T.
+                            // @grant        unsafeWindow
+                            // @match        https://mobile.southwest.com/check-in
+                            // @run-at       document-end
+                            // ==/UserScript==
+                            
+                            (
+                                function() {
+                            
+                                    const setNativeValue = (element, value) => {
+                                            const setValue = Object.getOwnPropertyDescriptor(element, 'value').set;
+                                            const prototype = Object.getPrototypeOf(element);
+                                            const setPrototypeValue = Object.getOwnPropertyDescriptor(prototype, 'value').set;
+                            
+                                            if (setValue && setValue !== setPrototypeValue) {
+                                                setPrototypeValue.call(element, value);
+                                            } else {
+                                                setValue.call(element, value);
+                                            }
+                                        }
+                            
+                                    window.addEventListener("load", () => {
+                            
+                                        setTimeout( () => {
+                                            const firstNameField = document.getElementsByName("firstName")[0];
+                                            const lastNameField = document.getElementsByName("lastName")[0];
+                            
+                                            setNativeValue(firstNameField,"Some First Name");
+                                            firstNameField.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                                            setNativeValue(lastNameField,"Some Last Name");
+                                            lastNameField.dispatchEvent(new Event('input', { bubbles: true }));
+                                        }, 2000);
+                            
+                                    });
+                            
+                            })();```
+                            With React applications we essentially need to set 'value' property of a prototype and then manually dipatch input event
+                            to make React trigger the event change. 
                         </p>   
                     </div>
                 </div>
