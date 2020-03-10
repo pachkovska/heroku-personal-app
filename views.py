@@ -36,7 +36,8 @@ def projects(request):
     return render(request, "content/2_projects.html", context)
 
 def resume(request):
-    response = requests.get('https://api.github.com/users/pachkovska/repos')
+    # response = requests.get('https://api.github.com/users/pachkovska/repos')
+    response = requests.get('https://api.github.com/users/pachkovska/repos/:pachkovska/:heroku-personal-app/stats/commit_activity')
     repos = response.json()
     context = {
     "pages": pages,
